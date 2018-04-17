@@ -28,6 +28,9 @@ export class LoginComponent implements OnInit {
           //if returnUrl is true then goto page else redirect to login
           this.router.navigateByUrl(this.returnUrl);
         }
+      },
+      () => {
+        this.securityObject = new AppUserAuth();
       }
     );
   }

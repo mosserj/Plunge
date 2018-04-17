@@ -5,13 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using backend.Model;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
   [Route("api/[controller]")]
+  [Authorize]
   public class ProductController : BaseApiController
   {
     [HttpGet]
+    [Authorize(Policy = "CanAccessProducts")]
     public IActionResult Get()
     {
       IActionResult ret = null;
