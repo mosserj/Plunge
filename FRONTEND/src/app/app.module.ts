@@ -15,7 +15,7 @@ import { SecurityService } from './security/security.service';
 import { LoginComponent } from './security/login.component';
 import { AuthGuard } from './security/auth.guard';
 import { HttpInterceptorModule } from './security/http-interceptor.module';
-import { HasClaimDirective } from './security/has-claim.directive';
+import { HasRoleDirective } from './security/has-role.directive';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import { HasClaimDirective } from './security/has-claim.directive';
     CategoryListComponent,
     DashboardComponent,
     LoginComponent,
-    HasClaimDirective
+    HasRoleDirective
   ],
   imports: [
     BrowserModule,

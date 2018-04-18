@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using backend.Model;
 
 namespace backend.Controllers
 {
   [Route("api/[controller]")]
-  public class CategoryController : BaseApiController
+  [Authorize]
+    public class CategoryController : BaseApiController
   {
     // GET api/values
     [HttpGet]
@@ -20,7 +22,7 @@ namespace backend.Controllers
 
       try
       {
-        using (var db = new PtcDbContext())
+        using (var db = new PlungeDbContext())
         {
           if (db.Categories.Count() > 0)
           {

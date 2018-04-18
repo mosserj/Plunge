@@ -12,10 +12,10 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     // Get property name on security object to check
-    let claimType: string = next.data["claimType"];
+    let roleType: string = next.data["roleType"];
 
     if (this.securityService.securityObject.isAuthenticated
-      && this.securityService.hasClaim(claimType)) {
+      && this.securityService.hasRole(roleType)) {
       return true;
     }
     else {

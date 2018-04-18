@@ -1,8 +1,8 @@
-import { AppUserClaim } from "./app-user-claim";
+import { AppUserRole } from "./app-user-role";
 
 export class AppUserAuth {
   userName: string = "";
   bearerToken: string = "";
   isAuthenticated: boolean = false;
-  claims: AppUserClaim[] = [];
+  roles: AppUserRole[] = [];
 }

@@ -21,19 +21,19 @@ const routes: Routes = [
     path: 'products', 
     component: ProductListComponent,
     canActivate: [AuthGuard],
-    data: { claimType: 'canAccessProducts'}
+    data: { roleType: 'canAccessProducts'}
   },
   { 
     path: 'productDetail/:id', 
     component: ProductDetailComponent,
     canActivate: [AuthGuard],
-    data: { claimType: 'canAccessProducts'}
+    data: { roleType: 'canAccessProducts'}
   },
   {
     path: 'categories',
     component: CategoryListComponent,
     canActivate: [AuthGuard],
-    data: { claimType: 'canAccessCategories'}
+    data: { roleType: 'canAccessCategories'}
   },
   {
     path: '', redirectTo: 'dashboard', pathMatch: 'full'

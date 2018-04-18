@@ -47,27 +47,27 @@ export class SecurityService {
     this.securityObject.bearerToken = "";
     this.securityObject.isAuthenticated = false;
 
-    this.securityObject.claims = [];
+    this.securityObject.roles = [];
 
     localStorage.removeItem("bearerToken");
   }
 
   // This method can be called a couple of different ways
-  // *hasClaim="'claimType'"  // Assumes claimValue is true
-  // *hasClaim="'claimType:value'"  // Compares claimValue to value
-  // *hasClaim="['claimType1','claimType2:value','claimType3']"
-  hasClaim(claimType: any, claimValue?: any) {
+  // *hasRole="'roleType'"  // Assumes roleValue is true
+  // *hasRole="'roleType:value'"  // Compares roleValue to value
+  // *hasRole="['roleType1','roleType2:value','roleType3']"
+  hasRole(roleType: any, roleValue?: any) {
     let ret: boolean = false;
 
     // See if an array of values was passed in.
-    if (typeof claimType === "string") {
-      ret = this.isClaimValid(claimType, claimValue);
+    if (typeof roleType === "string") {
+      ret = this.isRoleValid(roleType, roleValue);
     }
     else {
-      let claims: string[] = claimType;
-      if (claims) {
-        for (let index = 0; index < claims.length; index++) {
-          ret = this.isClaimValid(claims[index]);
+      let roles: string[] = roleType;
+      if (roles) {
+        for (let index = 0; index < roles.length; index++) {
+          ret = this.isRoleValid(roles[index]);
           // If one is successful, then let them in
           if (ret) {
             break;
@@ -80,7 +80,7 @@ export class SecurityService {
   }
 
 
-  private isClaimValid(claimType: string, claimValue?: string): boolean {
+  private isRoleValid(roleType: string, roleValue?: string): boolean {
     let ret: boolean = false;
     let auth: AppUserAuth = null;
 
@@ -88,21 +88,21 @@ export class SecurityService {
     auth = this.securityObject;
     if (auth) {
       // See if the claim type has a value
-      // *hasClaim="'claimType:value'"
-      if (claimType.indexOf(":") >= 0) {
-        let words: string[] = claimType.split(":");
-        claimType = words[0].toLowerCase();
-        claimValue = words[1];
+      // *hasRole="'roleType:value'"
+      if (roleType.indexOf(":") >= 0) {
+        let words: string[] = roleType.split(":");
+        roleType = words[0].toLowerCase();
+        roleValue = words[1];
       }
       else {
-        claimType = claimType.toLowerCase();
+        roleType = roleType.toLowerCase();
         // Either get the claim value, or assume 'true'
-        claimValue = claimValue ? claimValue : "true";
+        roleValue = roleValue ? roleValue : "true";
       }
       // Attempt to find the claim
-      ret = auth.claims.find(c =>
-        c.claimType.toLowerCase() == claimType &&
-        c.claimValue == claimValue) != null;
+      ret = auth.roles.find(c =>
+        c.roleType.toLowerCase() == roleType &&
+        c.roleValue == roleValue) != null;
     }
 
     return ret;

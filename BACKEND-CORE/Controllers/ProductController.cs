@@ -22,7 +22,7 @@ namespace backend.Controllers
 
       try
       {
-        using (var db = new PtcDbContext())
+        using (var db = new PlungeDbContext())
         {
           if (db.Products.Count() > 0)
           {
@@ -51,7 +51,7 @@ namespace backend.Controllers
 
       try
       {
-        using (var db = new PtcDbContext())
+        using (var db = new PlungeDbContext())
         {
           entity = db.Products.Find(id);
           if (entity != null)
@@ -81,7 +81,7 @@ namespace backend.Controllers
 
       try
       {
-        using (var db = new PtcDbContext())
+        using (var db = new PlungeDbContext())
         {
           if (entity != null)
           {
@@ -111,7 +111,7 @@ namespace backend.Controllers
 
       try
       {
-        using (var db = new PtcDbContext())
+        using (var db = new PlungeDbContext())
         {
           if (entity != null)
           {
@@ -141,7 +141,7 @@ namespace backend.Controllers
 
       try
       {
-        using (var db = new PtcDbContext())
+        using (var db = new PlungeDbContext())
         {
           entity = db.Products.Find(id);
           if (entity != null)

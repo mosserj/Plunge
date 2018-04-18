@@ -22,7 +22,7 @@ namespace backend.Security
       AppUserAuth ret = new AppUserAuth();
       AppUser authUser = null;
 
-      using (var db = new PtcDbContext())
+      using (var db = new PlungeDbContext())
       {
         // Attempt to validate user
         authUser = db.Users.Where(
@@ -39,22 +39,22 @@ namespace backend.Security
       return ret;
     }
 
-    protected List<AppUserClaim> GetUserClaims(AppUser authUser)
+    protected List<AppUserRole> GetUserRoles(AppUser authUser)
     {
-      List<AppUserClaim> list = new List<AppUserClaim>();
+      List<AppUserRole> list = new List<AppUserRole>();
 
       try
       {
-        using (var db = new PtcDbContext())
+        using (var db = new PlungeDbContext())
         {
-          list = db.Claims.Where(
+          list = db.Roles.Where(
                    u => u.UserId == authUser.UserId).ToList();
         }
       }
       catch (Exception ex)
       {
         throw new Exception(
-            "Exception trying to retrieve user claims.", ex);
+            "Exception trying to retrieve user roles.", ex);
       }
 
       return list;
@@ -63,7 +63,7 @@ namespace backend.Security
     protected AppUserAuth BuildUserAuthObject(AppUser authUser)
     {
       AppUserAuth ret = new AppUserAuth();
-      List<AppUserClaim> claims = new List<AppUserClaim>();
+      List<AppUserRole> roles = new List<AppUserRole>();
 
       // Set User Properties
       ret.UserName = authUser.UserName;
@@ -71,7 +71,7 @@ namespace backend.Security
       ret.BearerToken = new Guid().ToString();
 
       // Get all claims for this user
-      ret.Claims = GetUserClaims(authUser);
+      ret.Roles = GetUserRoles(authUser);
 
       // Set JWT bearer token
       ret.BearerToken = BuildJwtToken(ret);
@@ -91,10 +91,10 @@ namespace backend.Security
       jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Jti,
           Guid.NewGuid().ToString()));
 
-      // Add custom claims
-      foreach (var claim in authUser.Claims)
+      // Add custom roles
+      foreach (var role in authUser.Roles)
       {
-        jwtClaims.Add(new Claim(claim.ClaimType, claim.ClaimValue));
+        jwtClaims.Add(new Claim(role.RoleType, role.RoleValue));
       }
 
       // Create the JwtSecurityToken object

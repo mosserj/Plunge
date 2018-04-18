@@ -9,12 +9,12 @@
     <ul class="nav navbar-nav">
       <li>
         <ng-container *ngIf="securityObject.isAuthenticated">
-          <a routerLink="/products" *hasClaim="'canAccessProducts'">Products</a>
+          <a routerLink="/products" *hasRole="'canAccessProducts'">Products</a>
         </ng-container>
       </li>
       <li>
           <ng-container *ngIf="securityObject.isAuthenticated">
-            <a routerLink="/categories" *hasClaim="'canAccessCategories'">Categories</a>
+            <a routerLink="/categories" *hasRole="'canAccessCategories'">Categories</a>
           </ng-container>
       </li>
     </ul>

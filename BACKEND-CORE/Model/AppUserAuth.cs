@@ -14,6 +14,6 @@ namespace backend.Model
     public string BearerToken { get; set; }
     public bool IsAuthenticated { get; set; }
 
-    public List<AppUserClaim> Claims { get; set; }
+    public List<AppUserRole> Roles { get; set; }
   }
 }
