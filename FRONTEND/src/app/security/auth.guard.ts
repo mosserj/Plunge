@@ -6,22 +6,22 @@ import { SecurityService } from './security.service';
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private securityService: SecurityService,
-  private router: Router){
-     
-  }
+    private router: Router) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      let claimType: string = next.data["claimType"];
+    // Get property name on security object to check
+    let claimType: string = next.data["claimType"];
 
-    if (this.securityService.securityObject.isAuthenticated 
-      && this.securityService.securityObject[claimType]){
-        return true;
-      }
-      else {
-        this.router.navigate(['login'],
-        { queryParams: {returnUrl: state.url }})
-      }
+    if (this.securityService.securityObject.isAuthenticated
+      && this.securityService.hasClaim(claimType)) {
+      return true;
+    }
+    else {
+      this.router.navigate(['login'],
+        { queryParams: { returnUrl: state.url } });
+      return false;
+    }
   }
 }

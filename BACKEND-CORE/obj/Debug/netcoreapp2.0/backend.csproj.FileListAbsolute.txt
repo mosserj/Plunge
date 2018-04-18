@@ -1,11 +1,10 @@
+F:\dev\security\jwt\BACKEND-CORE\obj\Debug\netcoreapp2.0\backend.csproj.CoreCompileInputs.cache
+F:\dev\security\jwt\BACKEND-CORE\obj\Debug\netcoreapp2.0\backend.AssemblyInfoInputs.cache
+F:\dev\security\jwt\BACKEND-CORE\obj\Debug\netcoreapp2.0\backend.AssemblyInfo.cs
 F:\dev\security\jwt\BACKEND-CORE\bin\Debug\netcoreapp2.0\backend.deps.json
 F:\dev\security\jwt\BACKEND-CORE\bin\Debug\netcoreapp2.0\backend.runtimeconfig.json
 F:\dev\security\jwt\BACKEND-CORE\bin\Debug\netcoreapp2.0\backend.runtimeconfig.dev.json
 F:\dev\security\jwt\BACKEND-CORE\bin\Debug\netcoreapp2.0\backend.dll
 F:\dev\security\jwt\BACKEND-CORE\bin\Debug\netcoreapp2.0\backend.pdb
-F:\dev\security\jwt\BACKEND-CORE\obj\Debug\netcoreapp2.0\backend.csproj.CoreCompileInputs.cache
-F:\dev\security\jwt\BACKEND-CORE\obj\Debug\netcoreapp2.0\backend.AssemblyInfoInputs.cache
-F:\dev\security\jwt\BACKEND-CORE\obj\Debug\netcoreapp2.0\backend.AssemblyInfo.cs
 F:\dev\security\jwt\BACKEND-CORE\obj\Debug\netcoreapp2.0\backend.dll
 F:\dev\security\jwt\BACKEND-CORE\obj\Debug\netcoreapp2.0\backend.pdb
-F:\dev\security\jwt\BACKEND-CORE\obj\Debug\netcoreapp2.0\backend.csprojResolveAssemblyReference.cache
