@@ -12636,6 +12636,9 @@
   },
   "project": {
     "version": "1.0.0",
+    "restoreSettings": {
+      "hideWarningsAndErrors": true
+    },
     "restore": {
       "projectUniqueName": "F:\\dev\\security\\jwt\\BACKEND-CORE\\backend.csproj",
       "projectName": "backend",
@@ -12671,30 +12674,30 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
-          "Microsoft.NETCore.App": {
+          "System.IdentityModel.Tokens.JWT": {
             "target": "Package",
-            "version": "2.0.0",
-            "autoReferenced": true
-          },
-          "Microsoft.AspNetCore.All": {
-            "target": "Package",
-            "version": "2.0.5"
-          },
-          "Microsoft.AspNetCore.Authentication.jwtbearer": {
-            "target": "Package",
-            "version": "2.0.3"
+            "version": "5.2.1"
           },
           "Microsoft.AspNetCore.Cors": {
             "target": "Package",
             "version": "2.0.1"
           },
+          "Microsoft.NETCore.App": {
+            "target": "Package",
+            "version": "2.0.0",
+            "autoReferenced": true
+          },
+          "Microsoft.AspNetCore.Authentication.jwtbearer": {
+            "target": "Package",
+            "version": "2.0.3"
+          },
           "Microsoft.EntityFrameworkCore.SqlServer": {
             "target": "Package",
             "version": "2.0.1"
           },
-          "System.IdentityModel.Tokens.JWT": {
+          "Microsoft.AspNetCore.All": {
             "target": "Package",
-            "version": "5.2.1"
+            "version": "2.0.5"
           }
         },
         "imports": [

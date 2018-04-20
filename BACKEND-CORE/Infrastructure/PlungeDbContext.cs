@@ -5,21 +5,26 @@ namespace backend.Infrastructure
 {
   public class PlungeDbContext : DbContext
   {
+        public PlungeDbContext(DbContextOptions<PlungeDbContext> dbContextOptions) :
+            base(dbContextOptions)
+        {
+        }
+
         public DbSet<Product> _Products { get; set; }
         public DbSet<Category> _Categories { get; set; }
         public DbSet<AppUser> _Users { get; set; }
         public DbSet<AppUserRole> _Roles { get; set; }
 
-        private const string CONN =
-                      @"Server=Localhost;
-                     Database=PlungePTC;
-                     Trusted_Connection=True;
-                     MultipleActiveResultSets=true";
+    //    private const string CONN =
+    //                  @"Server=Localhost;
+    //                 Database=PlungePTC;
+    //                 Trusted_Connection=True;
+    //                 MultipleActiveResultSets=true";
 
-        protected override void OnConfiguring(
-                DbContextOptionsBuilder optionsBuilder)
-    {
-      optionsBuilder.UseSqlServer(CONN);
-    }
+    //    protected override void OnConfiguring(
+    //            DbContextOptionsBuilder optionsBuilder)
+    //{
+    //  optionsBuilder.UseSqlServer(CONN);
+    //}
   }
 }
