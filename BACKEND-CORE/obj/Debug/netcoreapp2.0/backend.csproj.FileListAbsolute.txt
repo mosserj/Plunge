@@ -8,3 +8,4 @@ F:\dev\security\jwt\BACKEND-CORE\bin\Debug\netcoreapp2.0\backend.dll
 F:\dev\security\jwt\BACKEND-CORE\bin\Debug\netcoreapp2.0\backend.pdb
 F:\dev\security\jwt\BACKEND-CORE\obj\Debug\netcoreapp2.0\backend.dll
 F:\dev\security\jwt\BACKEND-CORE\obj\Debug\netcoreapp2.0\backend.pdb
+F:\dev\security\jwt\BACKEND-CORE\obj\Debug\netcoreapp2.0\backend.csprojResolveAssemblyReference.cache

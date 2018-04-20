@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using backend.Security;
-using backend.Model;
+using backend.Services;
+using backend.Core.Model;
+using backend.Core.Interfaces;
 
 namespace backend.Controllers
 {
@@ -9,9 +10,12 @@ namespace backend.Controllers
   public class SecurityController : Controller
   {
     private JwtSettings _settings = null;
-    public SecurityController(JwtSettings settings)
+    private readonly IEntityFrameworkApplicationRepository _entityRepository;
+
+    public SecurityController(JwtSettings settings, IEntityFrameworkApplicationRepository entityRepository)
     {
       _settings = settings;
+      _entityRepository = entityRepository;
     }
 
     [HttpPost("login")]
@@ -19,7 +23,7 @@ namespace backend.Controllers
     {
       IActionResult ret = null;
       AppUserAuth auth = new AppUserAuth();
-      SecurityManager mgr = new SecurityManager(_settings);
+      SecurityManager mgr = new SecurityManager(_settings, _entityRepository);
 
       auth = mgr.ValidateUser(user);
       if (auth.IsAuthenticated)

@@ -1,13 +1,14 @@
 using Microsoft.EntityFrameworkCore;
+using backend.Core.Model;
 
-namespace backend.Model
+namespace backend.Infrastructure
 {
   public class PlungeDbContext : DbContext
   {
-    public DbSet<Product> Products { get; set; }
-    public DbSet<Category> Categories { get; set; }
-    public DbSet<AppUser> Users { get; set; }
-    public DbSet<AppUserRole> Roles { get; set; }
+        public DbSet<Product> _Products { get; set; }
+        public DbSet<Category> _Categories { get; set; }
+        public DbSet<AppUser> _Users { get; set; }
+        public DbSet<AppUserRole> _Roles { get; set; }
 
         private const string CONN =
                       @"Server=Localhost;

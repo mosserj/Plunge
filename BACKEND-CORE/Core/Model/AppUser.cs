@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace backend.Model
+namespace backend.Core.Model
 {
   [Table("User", Schema = "Security")]
   public partial class AppUser

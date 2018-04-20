@@ -11,97 +11,105 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
+using backend.Core.Model;
+using backend.Core.Interfaces;
+using backend.Infrastructure;
 
 namespace backend
 {
     public class Startup
-  {
-    public Startup(IConfiguration configuration)
     {
-      Configuration = configuration;
-    }
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-    public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-    // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services)
-    {
-      // Get JWT Token Settings from JwtSettings.json file
-      JwtSettings settings;
-      settings = GetJwtSettings();
-      // Create singleton of JwtSettings
-      services.AddSingleton<JwtSettings>(settings);
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            // Get JWT Token Settings from JwtSettings.json file
+            JwtSettings settings;
+            settings = GetJwtSettings();
+            // Create singleton of JwtSettings
+            services.AddSingleton<JwtSettings>(settings);
 
-      // Register Jwt as the Authentication service
-      services.AddAuthentication(options =>
-      {
-        options.DefaultAuthenticateScheme = "JwtBearer";
-        options.DefaultChallengeScheme = "JwtBearer";
-      })
-      .AddJwtBearer(authenticationScheme: "JwtBearer", configureOptions: jwtBearerOptions =>
-      {
-        jwtBearerOptions.TokenValidationParameters =
-            new TokenValidationParameters
+            // Register Jwt as the Authentication service
+            services.AddAuthentication(options =>
             {
-              ValidateIssuerSigningKey = true,
-              IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(settings.Key)),
-              ValidateIssuer = true,
-              ValidIssuer = settings.Issuer,
+                options.DefaultAuthenticateScheme = "JwtBearer";
+                options.DefaultChallengeScheme = "JwtBearer";
+            })
+            .AddJwtBearer(authenticationScheme: "JwtBearer", configureOptions: jwtBearerOptions =>
+            {
+                jwtBearerOptions.TokenValidationParameters =
+              new TokenValidationParameters
+              {
+                  ValidateIssuerSigningKey = true,
+                  IssuerSigningKey = new SymmetricSecurityKey(
+                  Encoding.UTF8.GetBytes(settings.Key)),
+                  ValidateIssuer = true,
+                  ValidIssuer = settings.Issuer,
 
-              ValidateAudience = true,
-              ValidAudience = settings.Audience,
+                  ValidateAudience = true,
+                  ValidAudience = settings.Audience,
 
-              ValidateLifetime = true,
-              ClockSkew = TimeSpan.FromMinutes(
-                       settings.MinutesToExpiration)
-            };
+                  ValidateLifetime = true,
+                  ClockSkew = TimeSpan.FromMinutes(
+                         settings.MinutesToExpiration)
+              };
+            });
+
+            services.AddAuthorization(cfg =>
+      {
+          // NOTE: The claim type and value are case-sensitive
+          cfg.AddPolicy("CanAccessProducts", p => p.RequireClaim("CanAccessProducts", "true"));
       });
 
-			services.AddAuthorization(cfg =>
-      {
-        // NOTE: The claim type and value are case-sensitive
-        cfg.AddPolicy("CanAccessProducts", p => p.RequireClaim("CanAccessProducts", "true"));
-      });
+            services.AddCors();
 
-      services.AddCors();
+            services.AddMvc()
+            .AddJsonOptions(options =>
+              options.SerializerSettings.ContractResolver =
+            new CamelCasePropertyNamesContractResolver());
 
-      services.AddMvc()
-      .AddJsonOptions(options =>
-        options.SerializerSettings.ContractResolver =
-      new CamelCasePropertyNamesContractResolver());
+            services.AddScoped<IEntityFrameworkApplicationRepository,
+                                     EntityFrameworkApplicationRepository>();
+            services.AddScoped<IProductService,
+                                     backend.Services.ProductService>();
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseCors(
+              options => options.WithOrigins(
+                "http://localhost:4200").AllowAnyMethod().AllowAnyHeader()
+            );
+
+            app.UseAuthentication();
+
+            app.UseMvc();
+        }
+
+        public JwtSettings GetJwtSettings()
+        {
+            JwtSettings settings = new JwtSettings();
+
+            settings.Key = Configuration["JwtSettings:key"];
+            settings.Audience = Configuration["JwtSettings:audience"];
+            settings.Issuer = Configuration["JwtSettings:issuer"];
+            settings.MinutesToExpiration =
+             Convert.ToInt32(
+                Configuration["JwtSettings:minutesToExpiration"]);
+
+            return settings;
+        }
     }
-
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-    {
-      if (env.IsDevelopment())
-      {
-        app.UseDeveloperExceptionPage();
-      }
-
-      app.UseCors(
-        options => options.WithOrigins(
-          "http://localhost:4200").AllowAnyMethod().AllowAnyHeader()
-      );
-
-      app.UseAuthentication();
-
-      app.UseMvc();
-    }
-
-    public JwtSettings GetJwtSettings()
-    {
-      JwtSettings settings = new JwtSettings();
-
-      settings.Key = Configuration["JwtSettings:key"];
-      settings.Audience = Configuration["JwtSettings:audience"];
-      settings.Issuer = Configuration["JwtSettings:issuer"];
-      settings.MinutesToExpiration =
-       Convert.ToInt32(
-          Configuration["JwtSettings:minutesToExpiration"]);
-
-      return settings;
-    }
-  }
 }

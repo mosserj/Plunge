@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace backend.Model
+namespace backend.Core.Model
 {
   public class AppUserAuth
   {
