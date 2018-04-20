@@ -6,7 +6,7 @@ tmp
 out-tsc
 
 # dependencies
-/node_modules
+node_modules
 
 # IDEs and editors
 .idea
@@ -18,7 +18,7 @@ out-tsc
 *.sublime-workspace
 
 # IDE - VSCode
-.vscode
+.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -53,6 +53,7 @@ Thumbs.db
 
 # Visual Studio 2015/2017 cache/options directory
 .vs
+
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
 
@@ -141,20 +142,3 @@ StyleCopReport.xml
 
 # TFS 2012 Local Workspace
 $tf
-
-# compiled output
-dist
-tmp
-out-tsc
-
-# dependencies
-node_modules
-
-# IDEs and editors
-.idea
-.project
-.classpath
-.c9
-*.launch
-.settings
-*.sublime-workspace
