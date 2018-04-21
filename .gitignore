@@ -101,6 +101,7 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 **/Properties/launchSettings.json
+obj/*
 
 # StyleCop
 StyleCopReport.xml
@@ -205,3 +206,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+BACKEND-CORE/obj/Debug/netcoreapp2.0/backend.csproj.CoreCompileInputs.cache
