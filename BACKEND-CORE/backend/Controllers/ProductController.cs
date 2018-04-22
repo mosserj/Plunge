@@ -29,7 +29,7 @@ namespace backend.Controllers
             List<Product> list = new List<Product>();
             try
             {
-                IEnumerable<Product> products = _productService.Get();
+                var products = _productService.Get();
 
                 if (products.Count() > 0)
                 {
