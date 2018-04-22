@@ -18,12 +18,12 @@ node_modules
 *.sublime-workspace
 
 # IDE - VSCode
-.vscode/*
+.vscode/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-*.code-workspace
+plunge.code-workspace
 
 # misc
 .sass-cache
@@ -97,8 +97,10 @@ bld
 # .NET Core
 project.lock.json
 project.fragment.lock.json
-artifacts
-Properties/launchSettings.json
+artifacts/
+**/Properties/launchSettings.json
+Properties/
+obj/
 
 # StyleCop
 StyleCopReport.xml
@@ -139,6 +141,3 @@ StyleCopReport.xml
 
 # Visual Studio Trace Files
 *.e2e
-
-# TFS 2012 Local Workspace
-$tf
