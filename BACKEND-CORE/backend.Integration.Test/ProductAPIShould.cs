@@ -7,26 +7,23 @@ using System.Threading.Tasks;
 
 namespace backend.Integration.Test
 {
-    public class ProductAPIShould
+    /// <summary>
+    /// basic integration test so I can explore setting up a CI environment
+    /// </summary>
+    public class ProductAPIShould : IClassFixture<TestServerFixture>
     {
-        private readonly TestServer _server;
-        private readonly HttpClient _client;
+        private readonly TestServerFixture _fixture;
 
-        public ProductAPIShould()
+        public ProductAPIShould(TestServerFixture fixture)
         {
-            // Arrange
-            _server = new TestServer(new WebHostBuilder()
-                .UseContentRoot(@"F:\dev\security\jwt\BACKEND-CORE\backend")
-                .UseEnvironment("Development")
-                .UseStartup<Startup>());
-            _client = _server.CreateClient();
+            _fixture = fixture;
         }
 
         [Fact]
         public async Task ReturnHelloWorld()
         {
             // Act
-            var response = await _client.GetAsync("/api/values");
+            var response = await _fixture.Client.GetAsync("/api/values");
             response.EnsureSuccessStatusCode();
 
             var responseString = await response.Content.ReadAsStringAsync();
