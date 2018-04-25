@@ -43,6 +43,11 @@ public class UserController {
         this.jwtService = jwtService;
     }
 
+    @RequestMapping(value="/test", method=RequestMethod.GET)
+    public String test(){
+    	return "teset";
+    }
+
     @RequestMapping(value="/login", method= RequestMethod.POST)
     public ResponseEntity<? extends IValue> login(@RequestBody Map<String, String> loginInfo) {
         String user = loginInfo.get("user");
