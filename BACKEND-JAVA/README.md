@@ -1,6 +1,6 @@
 
 #Practice
-setup a java api that handles the same JWT frontend as the .net api so we could flip between the two api's regardless of their language.
+setup a java api that handles jwt and roles to match the cores api
 
 
 ## original base example provided by couchbase on github

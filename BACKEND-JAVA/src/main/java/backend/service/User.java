@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import rx.functions.Func1;
 import backend.model.Result;
+import backend.model.*;
 
 @Service
 public class User {
@@ -36,7 +37,7 @@ public class User {
             throw new AuthenticationCredentialsNotFoundException("Bad Username or Password");
         } else if(BCrypt.checkpw(password, doc.content().getString("password"))) {
             return JsonObject.create()
-                .put("token", jwtService.buildToken(username))
+                .put("bearerToken", jwtService.buildToken(username))
                 .toMap();
         } else {
             throw new AuthenticationCredentialsNotFoundException("Bad Username or Password");
@@ -54,6 +55,7 @@ public class User {
             .put("name", username)
             .put("password", passHash);
         JsonDocument doc;
+
         if (expiry > 0) {
             doc = JsonDocument.create("user::" + username, expiry, data);
         } else {
@@ -65,7 +67,7 @@ public class User {
         try {
             bucket.insert(doc);
             return Result.of(
-                    JsonObject.create().put("token", jwtService.buildToken(username)).toMap(),
+                    JsonObject.create().put("bearerToken", jwtService.buildToken(username)).toMap(),
                     narration);
         } catch (Exception e) {
             throw new AuthenticationServiceException("There was an error creating account");

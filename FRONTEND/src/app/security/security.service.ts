@@ -3,12 +3,16 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators/tap';
+import { environment } from "../../environments/environment";
+import { md5 } from "./md5";
+import 'rxjs/add/operator/map';
+import { JwtHelper } from './angular2-jwt';
 
 import { AppUserAuth } from './app-user-auth';
 import { AppUser } from './app-user';
+import { HttpResponse } from 'selenium-webdriver/http';
 
-const API_URL = "http://localhost:5000/api/security/";
-
+const API_URL = environment.devHostJavaEnabled ? environment.devHostJava : environment.devHostCORE;
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json'
@@ -18,21 +22,52 @@ const httpOptions = {
 @Injectable()
 export class SecurityService {
   securityObject: AppUserAuth = new AppUserAuth();
+  jwt: JwtHelper;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.jwt = new JwtHelper();
+   }
+
+  isAuthenticated() {
+    if (!localStorage.getItem("user") || localStorage.getItem("user") == "") {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   login(entity: AppUser): Observable<AppUserAuth> {
     // Initialize security object
     this.resetSecurityObject();
 
-    return this.http.post<AppUserAuth>(API_URL + "login",
+    entity.password = md5(entity.password);
+
+    return this.http.post<AppUserAuth>(API_URL + "/api/login",
       entity, httpOptions).pipe(
         tap(resp => {
-          // Use object assign to update the current object
-          // NOTE: Don't create a new AppUserAuth object
-          //       because that destroys all references to object
           Object.assign(this.securityObject, resp);
           // Store into local storage
+          let decodedToken = this.jwt.decodeToken(this.securityObject.bearerToken);
+          localStorage.setItem("bearerToken", decodedToken.Token);
+        }));
+  }
+
+
+  register(entity: AppUser): Observable<any> {
+    // Initialize security object
+    this.resetSecurityObject();
+
+    entity.password = md5(entity.password);
+
+    return this.http.post<HttpResponse>(API_URL + "/api/signup",
+      entity, httpOptions)
+      .map((response: Response) => response['data'])
+      .pipe(
+        tap(resp => {
+          Object.assign(this.securityObject, resp);
+          let decodedToken = this.jwt.decodeToken(this.securityObject.bearerToken);
+          // Store into local storage
+          localStorage.setItem("userName", this.securityObject.userName);
           localStorage.setItem("bearerToken",
             this.securityObject.bearerToken);
         }));

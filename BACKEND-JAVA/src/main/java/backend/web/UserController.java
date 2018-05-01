@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import backend.model.AppUserAuth;
 import backend.model.Error;
 import backend.model.IValue;
 import backend.model.Result;
@@ -26,7 +28,7 @@ import backend.service.TokenService;
 import backend.service.User;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/")
 public class UserController {
 
     private final Bucket bucket;
@@ -49,15 +51,29 @@ public class UserController {
     }
 
     @RequestMapping(value="/login", method= RequestMethod.POST)
-    public ResponseEntity<? extends IValue> login(@RequestBody Map<String, String> loginInfo) {
-        String user = loginInfo.get("user");
-        String password = loginInfo.get("password");
+    public ResponseEntity<? extends IValue> login(@RequestBody Map<String, String> AppUser) {
+        String user = AppUser.get("userName");
+        String password = AppUser.get("password");
+        
+
+
         if (user == null || password == null) {
             return ResponseEntity.badRequest().body(new Error("User or password missing, or malformed request"));
         }
 
         try {
             Map<String, Object> data = userService.login(bucket, user, password);
+
+            AppUserAuth auth = new AppUserAuth();
+            auth.SetUserName(user);
+            auth.SetIsAuthenticated(true);
+            //auth.SetBearerToken(data.get("token").toString());
+
+            data.put("UserName", user);
+            data.put("IsAuthenticated", true);
+
+            
+
             return ResponseEntity.ok(Result.of(data));
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -72,7 +88,7 @@ public class UserController {
     public ResponseEntity<? extends IValue> createLogin(@RequestBody String json) {
         JsonObject jsonData = JsonObject.fromJson(json);
         try {
-            Result<Map<String, Object>> result = userService.createLogin(bucket, jsonData.getString("user"), jsonData.getString("password"), expiry);
+            Result<Map<String, Object>> result = userService.createLogin(bucket, jsonData.getString("userName"), jsonData.getString("password"), expiry);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(result);
         } catch (AuthenticationServiceException e) {
