@@ -1,5 +1,5 @@
 
-Project in progress with the following points of interest....
+Project for practice in progress with the following points of interest....
 
 IDE-vscode
 Latest Angular Frontend
@@ -16,8 +16,7 @@ This project was generated with [Angular CLI]
 SecurityService 
 RouteGuard 
 service controllers with roles based jwt claims
-product controller
-category controller
+update - added pw security for registering a user with the api. (md5)
 
 # BACKEND-CORE ---------------------------------------------
 .Net Core web api 
@@ -25,6 +24,9 @@ JSON Web Tokens
     - bearer token creation
     - Roles based claims permission system for frontend
 Authentication for api's based on permissions
+
+# BACKEND-Java ---------------------------------------------
+Java spring framework api with JWT
 
 # Running development server -------------------------------
 

@@ -13,26 +13,43 @@ export class LoginComponent implements OnInit {
   user: AppUser = new AppUser();
   securityObject: AppUserAuth = null;
   returnUrl: string;
+  isNew:boolean;
 
   constructor(private securityService: SecurityService,
   private route: ActivatedRoute,
   private router: Router) { 
-    
+    this.isNew = true;
   }
 
   login(){
-    this.securityService.login(this.user).subscribe(
-      resp => {
-      this.securityObject = resp;
-        if(this.returnUrl) {
-          //if returnUrl is true then goto page else redirect to login
-          this.router.navigateByUrl(this.returnUrl);
+    this.user.isNew = true;
+    if(this.isNew){
+      this.securityService.register(this.user).subscribe(
+            resp => {
+            this.securityObject = resp;
+              if(this.returnUrl) {
+                //if returnUrl is true then goto page else redirect to login
+                this.router.navigateByUrl(this.returnUrl);
+              }
+            },
+            () => {
+              this.securityObject = new AppUserAuth();
+            }
+          );
+    }else{
+      this.securityService.login(this.user).subscribe(
+        resp => {
+        this.securityObject = resp;
+          if(this.returnUrl) {
+            //if returnUrl is true then goto page else redirect to login
+            this.router.navigateByUrl(this.returnUrl);
+          }
+        },
+        () => {
+          this.securityObject = new AppUserAuth();
         }
-      },
-      () => {
-        this.securityObject = new AppUserAuth();
-      }
-    );
+      );
+    }
   }
 
   ngOnInit() {

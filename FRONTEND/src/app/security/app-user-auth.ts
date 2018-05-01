@@ -1,8 +1,9 @@
 import { AppUserRole } from "./app-user-role";
 
 export class AppUserAuth {
-  userName: string = "";
-  bearerToken: string = "";
+  userName: string;
+  bearerToken?: string;
   isAuthenticated: boolean = false;
-  roles: AppUserRole[] = [];
+  roles?: AppUserRole[] = [];
+  flights?: Array<Object>
 }
